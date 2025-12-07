@@ -101,12 +101,35 @@ class Student {
         this.marks = {};
     }
 
-    addMarks (marks, subject) {
+    addMark(marks, subject) {
         if (marks > 5 || marks < 2) {
             return
         }
-        if (subject in this.marks)
-            this.marks.subject.push(...marks)
-        
+        if (subject in this.marks) {
+            this.marks[subject].push(marks)
+        }else {
+            this.marks[subject] = [marks]
+        }
+    }
+
+    getAverageBySubject (subject) {
+        if (this.marks[subject]) {
+            return this.marks[subject].reduce((acc, item) =>acc + item, 0) / this.marks[subject].length  
+        }else{
+            return 0
+        }
+    }
+
+    getAverage () {
+        const keys = Object.keys(this.marks);
+        if (keys.length === 0) {
+            return 0
+        }
+        let sum = 0;
+        for (let i = 0; i < keys.length; i++) {
+            sum += this.getAverageBySubject(keys[i]);
+        }
+        return sum/keys.length
+
     }
 }
